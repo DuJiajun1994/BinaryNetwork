@@ -1,0 +1,1 @@
+conv_3_128,pool_2_2,conv_3_256,pool_2_2,conv_3_512,pool_2_2,fc_1024,fc_1024,fc_10
