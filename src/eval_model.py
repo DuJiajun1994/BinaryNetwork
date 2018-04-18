@@ -32,7 +32,8 @@ if __name__ == '__main__':
     model = get_model(args.model)
     data_provider = get_data_provider(args.data)
     net = model.load_net_from_file(os.path.join('../nets', args.net_file))
-    output_dir = os.path.join('../output', args.model, args.data, time.strftime("%Y%m%d%H%M%S", time.localtime()))
+    output_dir = os.path.join('../output', args.model, args.data)
+    # output_dir = os.path.join('../output', args.model, args.data, time.strftime("%Y%m%d%H%M%S", time.localtime()))
 
     classifier = tf.estimator.Estimator(model_fn=model.get_model_fn(),
                                         model_dir=output_dir,

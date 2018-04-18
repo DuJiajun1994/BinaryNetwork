@@ -4,7 +4,7 @@ from binary_network.binary_ops import binary_identity
 import tensorflow.contrib.layers as layers
 from tensorflow.contrib.layers.python.layers import initializers
 
-weight_decay = 0.0005
+weight_decay = 1e-4
 
 
 @add_arg_scope
