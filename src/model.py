@@ -30,7 +30,10 @@ class Model:
             loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits) \
                    + tf.losses.get_regularization_loss()
             tf.summary.scalar('loss', loss)
-            optimizer = tf.train.AdamOptimizer(learning_rate=params['learning_rate'])
+            # optimizer = tf.train.AdamOptimizer(learning_rate=params['learning_rate'])
+            optimizer = tf.train.MomentumOptimizer(learning_rate=params['learning_rate'],
+                                                   momentum=0.9,
+                                                   use_nesterov=True)
             train_op = optimizer.minimize(loss, global_step=tf.train.get_global_step())
             accuracy = tf.metrics.accuracy(labels=labels,
                                            predictions=predicted_classes)
