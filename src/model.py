@@ -27,7 +27,8 @@ class Model:
                 'class_ids': predicted_classes,
                 'probabilities': tf.nn.softmax(logits)
             }
-            loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
+            loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits) \
+                   + tf.losses.get_regularization_loss()
             tf.summary.scalar('loss', loss)
             optimizer = tf.train.AdamOptimizer(learning_rate=params['learning_rate'])
             train_op = optimizer.minimize(loss, global_step=tf.train.get_global_step())
