@@ -26,8 +26,8 @@ class BinaryConnect(Model):
                 net = tf.layers.max_pooling2d(net, pool_size=2, strides=2, padding='SAME')
             elif isinstance(layer, FC):
                 if not isinstance(layers[i - 1], FC):
-                    net = tf.contrib.layers.flatten(net)
-                    # net = tf.reduce_mean(net, [1, 2])
+#                    net = tf.contrib.layers.flatten(net)
+                    net = tf.reduce_mean(net, [1, 2])
                 if i < len(layers) - 1:
                     net = binary_layers.dense(net,
                                               units=layer.num_outputs,
