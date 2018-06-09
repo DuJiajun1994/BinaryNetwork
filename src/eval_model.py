@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument('--data', dest='data',
                         default='cifar10', type=str)
     parser.add_argument('--net_file', dest='net_file',
-                        default='cifarnet.txt', type=str)
+                        default='cifarnet10.txt', type=str)
     parser.add_argument('--learning_rate', dest='learning_rate',
                         default=0.01, type=float)
     parser.add_argument('--num_epochs', dest='num_epochs',
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     model = get_model(args.model)
     data_provider = get_data_provider(args.data)
     net = model.load_net_from_file(os.path.join('../nets', args.net_file))
-    output_dir = os.path.join('../output', args.model, args.data)
+    output_dir = os.path.join('../output', args.model, args.data,'01')
     # output_dir = os.path.join('../output', args.model, args.data, time.strftime("%Y%m%d%H%M%S", time.localtime()))
 
     classifier = tf.estimator.Estimator(model_fn=model.get_model_fn(),
@@ -45,6 +45,7 @@ if __name__ == '__main__':
     num_iters = args.num_epochs // args.test_interval
     train_steps = args.test_interval * data_provider.train_size // args.batch_size
     for i in range(num_iters):
+        '''
         classifier.train(input_fn=data_provider.get_input_fn('trainval',
                                                              batch_size=args.batch_size,
                                                              is_training=True),
@@ -52,6 +53,14 @@ if __name__ == '__main__':
         metrics = classifier.evaluate(input_fn=data_provider.get_input_fn('trainval',
                                                                           batch_size=args.batch_size,
                                                                           is_training=False))
+        '''
+        classifier.train(input_fn=data_provider.get_input_fn('train',
+                                                             batch_size=args.batch_size,
+                                                             is_training=True),
+                         steps=train_steps)
+        metrics = classifier.evaluate(input_fn=data_provider.get_input_fn('train',
+                                                                          batch_size=args.batch_size,
+                                                                          is_training=False))        
         train_accuracy = metrics['accuracy']
         metrics = classifier.evaluate(input_fn=data_provider.get_input_fn('test',
                                                                           batch_size=args.batch_size,
